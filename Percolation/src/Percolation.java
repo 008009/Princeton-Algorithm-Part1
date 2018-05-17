@@ -33,7 +33,6 @@ public class Percolation {
         for (int i = 0; i < totalGrid-1; i ++){
             status[i] = false;
         }
-
     }
 
     // is site (row, col) open?
@@ -81,7 +80,6 @@ public class Percolation {
         }
 
     }
-
 
     // is site (row, col) full?
     // A full site is an open site that can be
