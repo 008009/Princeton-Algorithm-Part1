@@ -5,7 +5,7 @@ public class Percolation {
     private boolean[] status;
     private int n;
     private int count;
-    private int virtualTop = 0;
+    private int virtualTop = 0 ;
     private int virtualBot;
     private WeightedQuickUnionUF wqf;
 
@@ -15,7 +15,7 @@ public class Percolation {
         if(row <= 0 || col <= 0 || row > n || col >n){
             throw new java.lang.IllegalArgumentException("invalid argument");
         }
-        return (row-1) * n - col;
+        return (row-1) * n + col;
     }
 
     // create n-by-n grid, with all sites blocked
@@ -23,11 +23,11 @@ public class Percolation {
         if(n <= 0) {
             throw new java.lang.IllegalArgumentException("invalid argument");
         }
-        this.virtualBot = n * n + 1;
         this.count = 0;
         int totalGrid = n*n;
         this.n = totalGrid;
-        this.wqf = new WeightedQuickUnionUF(totalGrid);
+        this.virtualBot = n * n + 1;
+        this.wqf = new WeightedQuickUnionUF(totalGrid + 2);
         status = new boolean[totalGrid];
         for (int i = 0; i < totalGrid-1; i ++){
             status[i] = false;
@@ -97,6 +97,6 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates(){
-        return wqf.connected(virtualBot, virtualTop);
+        return this.wqf.connected(virtualBot, virtualTop);
     }
 }
