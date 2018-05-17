@@ -24,9 +24,10 @@ public class Percolation {
             throw new java.lang.IllegalArgumentException("invalid argument");
         }
         this.count = 0;
-        int totalGrid = n*n;
-        this.n = totalGrid;
+        int totalGrid = n * n;
+        this.n = n;
         this.virtualBot = n * n + 1;
+        //totalGrid + 2 because you have both virtualTop and virtualBot
         this.wqf = new WeightedQuickUnionUF(totalGrid + 2);
         status = new boolean[totalGrid];
         for (int i = 0; i < totalGrid-1; i ++){
@@ -60,23 +61,22 @@ public class Percolation {
             wqf.union(index, virtualBot);
         }
         //top  row-1, col
-        if(isOpen(row-1, col)){
+        if(row > 1 && isOpen(row-1, col)){
             wqf.union(index, transfer(row-1, col));
         }
 
         //bot  row+1, col
-        if(isOpen(row + 1, col)){
+        if(row < n && isOpen(row + 1, col)){
             wqf.union(index, transfer(row + 1 , col));
         }
 
         //left row, col-1
-        // potential bug
-        if(isOpen(row, col - 1)){
+        if(col > 1 && isOpen(row, col - 1)){
             wqf.union(index, transfer(row, col-1));
         }
 
         //right row, col+1
-        if(isOpen(row, col + 1)){
+        if(col < n && isOpen(row, col + 1)){
             wqf.union(index, transfer(row, col+1));
         }
 
