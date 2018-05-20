@@ -110,9 +110,8 @@ public class Deque<Item> implements Iterable<Item>{
             if(!hasNext()){
                 throw new java.util.NoSuchElementException("no more items to return");
             }
-            Item result = (Item)first.next.content;
             first = first.next;
-            return result;
+            return (Item)first.content;
             //potential bug
             //boss = boss.next;
             //return (Item)boss.item;
