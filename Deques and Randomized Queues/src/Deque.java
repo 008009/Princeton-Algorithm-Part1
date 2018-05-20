@@ -93,10 +93,10 @@ public class Deque<Item> implements Iterable<Item>{
 
     //return an iterator over items in order from front to end
     public Iterator<Item> iterator() {
-        return new LinkedLIstIterator();
+        return new LinkedListIterator();
     }
 
-    private class LinkedLIstIterator implements Iterator<Item>{
+    private class LinkedListIterator implements Iterator<Item>{
         //hasNext();
         private node first = sentinel;
         @Override
@@ -119,7 +119,6 @@ public class Deque<Item> implements Iterable<Item>{
         }
 
         //remove();
-
         @Override
         public void remove(){
             throw new java.lang.UnsupportedOperationException("This operation is not supported");
