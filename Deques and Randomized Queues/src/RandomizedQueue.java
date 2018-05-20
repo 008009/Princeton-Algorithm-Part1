@@ -18,7 +18,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         array = afterResize;
     }
     private boolean needShrink(){
-        return (size) / (array.length) < 0.25;
+        return (4 * size) < (array.length) ;
     }
 
     //construct an empty randomized queue
@@ -58,9 +58,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if(isEmpty()){
             throw new java.util.NoSuchElementException("No element to be dequeue");
         }
-        int index = StdRandom.uniform(0, array.length);
+        int index = StdRandom.uniform(0, size);
         Item result = array[index];
         array[index] = array[size - 1];
+        array[size - 1] = null;
         size--;
         if(needShrink()){
             resize(array.length/2);
@@ -87,7 +88,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Item[] example;
         int startIndex = 0;
         private ArrayIterator(){
-           example = (Item[]) new Object[array.length];
+           example = (Item[]) new Object[size];
            System.arraycopy(array,0,example,0,size);
            StdRandom.shuffle(example);
         }
@@ -101,8 +102,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if(!hasNext()){
                 throw new java.util.NoSuchElementException("no more items to return");
             }
-            startIndex++;
-            return example[startIndex];
+            return example[startIndex++];
+            // first return example[0], then startIndex++;
         }
 
         @Override
@@ -113,6 +114,21 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     //unit testing (optional)
     public static void main(String[] args){
-
+        RandomizedQueue<Integer> number = new RandomizedQueue<Integer>();
+        number.enqueue(10);
+//        System.out.println(number.size);
+//        System.out.println(number.array.length);
+        number.enqueue(20);
+        number.enqueue(19);  // 10 20 19
+        number.enqueue(39);
+        number.enqueue(99);
+        number.dequeue();
+        number.dequeue();
+        number.dequeue();
+        number.dequeue();
+        Iterator<Integer> it = number.iterator();
+        for(int i = 0; i < number.size; i++){
+            System.out.println(it.next());
+        }
     }
 }
