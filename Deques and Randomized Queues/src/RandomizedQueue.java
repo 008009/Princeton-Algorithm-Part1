@@ -24,8 +24,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     //construct an empty randomized queue
     public RandomizedQueue(){
         this.size = 0;
-        Item[] a = (Item[]) new Object[1];
-        this.array = a;
+        array = (Item[]) new Object[1];
     }
 
     //is the randomized queue empty?
