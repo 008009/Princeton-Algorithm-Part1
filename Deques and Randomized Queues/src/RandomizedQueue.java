@@ -18,7 +18,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         array = afterResize;
     }
     private boolean needShrink(){
-        return (4 * size) < (array.length) ;
+        return size > 0 && (4 * size) < (array.length) ;
     }
 
     //construct an empty randomized queue
@@ -43,14 +43,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if(item == null){
             throw new java.lang.IllegalArgumentException("Invalid argument");
         }
-        if(this.size < array.length){
-            size++;
-            array[size - 1] = item;
-        }else{
-            resize(size * 2);
-            size++;
-            array[size - 1] = item;
+//        if(size == 0) {
+//            RandomizedQueue<Item> newQueue = new RandomizedQueue<>();
+//
+//        }
+//        if(this.size < array.length){
+//            size++;
+//            array[size - 1] = item;
+//        }else{
+//            //potential bug
+//            resize(array.length * 2);
+//            size++;
+//            array[size - 1] = item;
+//        }
+        if(this.size == array.length){
+            resize(array.length * 2);
         }
+//        size++;
+//        array[size - 1] = item;
+        array[size] = item;
+        size++;
     }
 
     //remove and return a random item
@@ -74,7 +86,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if(isEmpty()){
             throw new java.util.NoSuchElementException("No element to be dequeue");
         }
-        int index = StdRandom.uniform(0, array.length);
+        int index = StdRandom.uniform(0, size);
         Item Result = array[index];
         return Result;
     }
@@ -102,8 +114,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if(!hasNext()){
                 throw new java.util.NoSuchElementException("no more items to return");
             }
-            return example[startIndex++];
-            // first return example[0], then startIndex++;
+            Item result = example[startIndex];
+            startIndex++;
+            return result;
+            // first return example[0], then startIndex++; == return exapmle[startIndex++];
         }
 
         @Override
@@ -114,20 +128,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     //unit testing (optional)
     public static void main(String[] args){
-        RandomizedQueue<Integer> number = new RandomizedQueue<Integer>();
-        number.enqueue(10);
-//        System.out.println(number.size);
-//        System.out.println(number.array.length);
-        number.enqueue(20);
-        number.enqueue(19);  // 10 20 19
-        number.enqueue(39);
-        number.enqueue(99);
+        RandomizedQueue<Integer> number = new RandomizedQueue<>();
+        number.enqueue(527);
         number.dequeue();
-        number.dequeue();
-        number.dequeue();
-        number.dequeue();
+        System.out.println(number.isEmpty());
+        number.enqueue(578);
+//        number.dequeue();
+//        number.dequeue();
+//        number.dequeue();
+//        number.enqueue(1000);
+//      System.out.println(number.sample());
         Iterator<Integer> it = number.iterator();
-        for(int i = 0; i < number.size; i++){
+        while(it.hasNext()){
             System.out.println(it.next());
         }
     }
