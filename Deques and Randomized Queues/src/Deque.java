@@ -1,4 +1,4 @@
-import java.lang.Iterable;
+//import java.lang.Iterable;
 import java.util.Iterator;
 public class Deque<Item> implements Iterable<Item>{
     private node sentinel;
@@ -116,7 +116,14 @@ public class Deque<Item> implements Iterable<Item>{
         private node first = sentinel;
         @Override
         public boolean hasNext(){
-            return first.next != first;
+//            if(size == 0) {
+//                return false;
+//            }
+            // for empty deque
+            if(first.next == null) {
+                return false;
+            }
+            return first.next != sentinel;
         }
 
         //next()
@@ -140,7 +147,7 @@ public class Deque<Item> implements Iterable<Item>{
     // unit testing (optional)
     public static void main(String[] args){
         Deque<Integer> dq = new Deque<Integer>();
-        dq.addFirst(10);
+        dq.addFirst(0);
         dq.addFirst(20);
         dq.addFirst(34);
         dq.addFirst(50);
@@ -148,10 +155,14 @@ public class Deque<Item> implements Iterable<Item>{
         dq.removeFirst();
         dq.removeFirst();
         dq.removeLast();
+        dq.removeLast();
+        dq.removeLast();
+        System.out.println(dq.size());
 
         Iterator<Integer> it = dq.iterator();
-        for(int i = 0 ; i < dq.size(); i++){
+        while (it.hasNext()){
             System.out.println(it.next());
         }
+        System.out.println(it.hasNext());
     }
 }
