@@ -47,20 +47,33 @@ public class Deque<Item> implements Iterable<Item>{
     //add the item to the front
     public void addFirst(Item item){
         validateArguemnt(item);
-        node originalFirstNode = sentinel.next;
-        node newFirstNode = new node(sentinel, item, originalFirstNode);
-        originalFirstNode.prev = newFirstNode;
-        sentinel.next = newFirstNode;
+        if(size == 0) {
+            node first = new node(sentinel, item, sentinel);
+            sentinel.next = first;
+            sentinel.prev = first;
+        }else{
+            node originalFirstNode = sentinel.next;
+            node newFirstNode = new node(sentinel, item, originalFirstNode);
+            originalFirstNode.prev = newFirstNode;
+            sentinel.next = newFirstNode;
+        }
         size++;
+
     }
 
     //add the item to the end
     public void addLast(Item item){
         validateArguemnt(item);
-        node originalLastNode = sentinel.prev;
-        node newLastNode = new node(originalLastNode, item, sentinel);
-        originalLastNode.next = newLastNode;
-        sentinel.prev = newLastNode;
+        if(size == 0) {
+            node first = new node(sentinel, item, sentinel);
+            sentinel.next = first;
+            sentinel.prev = first;
+        }else{
+            node originalLastNode = sentinel.prev;
+            node newLastNode = new node(originalLastNode, item, sentinel);
+            originalLastNode.next = newLastNode;
+            sentinel.prev = newLastNode;
+        }
         size++;
     }
 
@@ -81,13 +94,15 @@ public class Deque<Item> implements Iterable<Item>{
     //remove and return the item from the end
     public Item removeLast(){
         validateSize(this.size);
+
         node lastNode = sentinel.prev;
-        node sencondLastNode = sentinel.prev.prev;
+        node sencondLastNode = lastNode.prev;
         sencondLastNode.next = sentinel;
         sentinel.prev = sencondLastNode;
         Item content = (Item)lastNode.content;
         lastNode.prev = null;
         lastNode.next = null;
+        size--;
         return content;
     }
 
@@ -112,9 +127,6 @@ public class Deque<Item> implements Iterable<Item>{
             }
             first = first.next;
             return (Item)first.content;
-            //potential bug
-            //boss = boss.next;
-            //return (Item)boss.item;
         }
 
         //remove();
@@ -127,6 +139,19 @@ public class Deque<Item> implements Iterable<Item>{
 
     // unit testing (optional)
     public static void main(String[] args){
+        Deque<Integer> dq = new Deque<Integer>();
+        dq.addFirst(10);
+        dq.addFirst(20);
+        dq.addFirst(34);
+        dq.addFirst(50);
+        dq.addLast(24);    // 50 34 20 10 24
+        dq.removeFirst();
+        dq.removeFirst();
+        dq.removeLast();
 
+        Iterator<Integer> it = dq.iterator();
+        for(int i = 0 ; i < dq.size(); i++){
+            System.out.println(it.next());
+        }
     }
 }
